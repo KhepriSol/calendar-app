@@ -5,11 +5,21 @@
 // the code isn't run until the browser has finished rendering all the elements
 // in the html.
 $(document).ready(function() {
-    $(".saveBtn").on("click", function() {
-        var timeBlockId = $(this).parent().attr("id");
-        var text = $(this).parent().find(".description").val();
-        localStorage.setItem(timeBlockId, text);
-    });
+    for (var i = 9; i <= 17; i++) {
+        var timeBlock = $("<div>").attr("id", "hour-" + i).addClass("row time-block");
+        var hour = $("<div>").addClass("col-2 col-md-1 hour text-center py-3").text(i + "AM");
+        var textArea = $("<textarea>").addClass("col-8 col-md-10 description").attr("rows", "3");
+        var saveBtn = $("<button>").addClass("btn saveBtn col-2 col-md-1").attr("aria-label", "save").html("<i class='fas fa-save' aria-hidden='true'></i>");
+
+        saveBtn.on("click", function() {
+            var text = $(this).parent().find(".description").val();
+            var timeBlockId = $(this).parent().attr("id");
+            localStorage.setItem(timeBlockId, text);
+        });
+
+        timeBlock.append(hour, textArea, saveBtn);
+        $(".container-lg").append(timeBlock);
+    }
     
     $(".time-block").each(function() {
           var blockHour = $(this).attr("id");
@@ -17,7 +27,32 @@ $(document).ready(function() {
           $(this).find("textarea").val(event);
       });
  
+  $(".time-block").each(function()  {
+    var blockHour = parseInt($(this).attr("id").split("-")[1]);
+    var currentHour = new Date().getHours();
+    if(blockHour < currentHour) {
+        $(this).addClass("past");
+    }
+    else if (blockHour === currentHour) {
+        $(this).addClass("present");
+    } else {
+        $(this).addClass("future");
+    }
+  });
+
+  var currentDate = new Date();
+  $("#currentDay").text(currentDate.toLocaleDateString())
+ 
   
+    for (var i = 9; i <= 17; i++) {
+        var timeBlock = $("<div>").attr("id", "hour-" + i).addClass("row time-block");
+        var hour = $("<div>").addClass("col-2 col-md-1 hour text-center py-3").text(i + "AM");
+        var textArea = $("<textarea>").addClass("col-8 col-md-10 description").attr("rows", "3");
+        var saveBtn = $("<button>").addClass("btn saveBtn col-2 col-md-1").attr("aria-label", "save").html("<i class='fas fa-save' aria-hidden='true'></i>");
+
+        timeBlock.append(hour, textArea, saveBtn);
+        $(".container-lg").append(timeBlock);
+    }
 
 
   // TODO: Add a listener for click events on the save button. This code should
