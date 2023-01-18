@@ -3,6 +3,7 @@
 // Wrap all code that interacts with the DOM in a call to jQuery to ensure that
 // the code isn't run until the browser has finished rendering all the elements
 // in the html.
+// Adds timeblocks 9am-5pm
 $(document).ready(function () {
   for (var i = 9; i <= 17; i++) {
     var timeBlock = $("<div>").attr("id", "hour-" + i).addClass("row time-block");
@@ -25,14 +26,14 @@ $(document).ready(function () {
     });
     timeBlock.append(hour, textArea, saveBtn);
     $(".container-lg").append(timeBlock);
-  } // TODO: Add code to get any user input that was saved in localStorage and set
+  } // Add code to get any user input that was saved in localStorage and set
 
 
   $(".time-block").each(function () {
     var blockHour = $(this).attr("id");
     var event = localStorage.getItem(blockHour);
     $(this).find("textarea").val(event);
-  }); // TODO: Add code to apply the past, present, or future class to each timeblock
+  }); // Add code to apply the past, present, or future class to each timeblock
 
   $(".time-block").each(function () {
     var blockHour = parseInt($(this).attr("id").split("-")[1]);
@@ -45,7 +46,7 @@ $(document).ready(function () {
     } else {
       $(this).addClass("future");
     }
-  }); // TODO: Add code to display the current date in the header of the page.
+  }); // Add code to display the current date in the header of the page.
 
   var currentDate = new Date();
   $("#currentDay").text(currentDate.toLocaleDateString());
